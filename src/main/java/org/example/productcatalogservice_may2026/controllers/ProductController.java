@@ -1,12 +1,13 @@
 package org.example.productcatalogservice_may2026.controllers;
 
+import org.example.productcatalogservice_may2026.dtos.CategoryDto;
 import org.example.productcatalogservice_may2026.dtos.ProductDto;
 import org.example.productcatalogservice_may2026.models.Category;
 import org.example.productcatalogservice_may2026.models.Product;
 import org.example.productcatalogservice_may2026.services.IProductService;
-import org.example.productcatalogservice_may2026.services.ProductService;
-import org.example.productcatalogservice_may2026.services.StorageProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,8 @@ import java.util.List;
 
 //ToDo 8/6 -: Add PUT,PATCH and DELETE API
 //ToDo 8/6 -: Read about RestTemplate
+
+//ToDo : Exception Handlers to be shown by Anurag
 
 @RestController
 public class ProductController {
@@ -29,8 +32,30 @@ public class ProductController {
     }
 
     @GetMapping("/products/{ID}")
-    public ProductDto getProductById(@PathVariable("ID") Long productId) {
-       return null;
+    public ResponseEntity<ProductDto> getProductById(@PathVariable("ID") Long productId) {
+        if (productId <= 0L) {
+            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+        }
+
+        Product product = productService.getProductById(productId);
+        if (product !=null) {
+            ProductDto productDto = from(product);
+            return new ResponseEntity<>(productDto, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/products/{productId}")
+    public ProductDto replaceProduct(@PathVariable Long productId,
+                                     @RequestBody ProductDto inputProductDto)
+    {
+      Product inputProduct = from(inputProductDto);
+      Product response = productService.replaceProduct(inputProduct,productId);
+      if(response !=null) {
+          return from(response);
+      }
+
+      return null;
     }
 
     @PostMapping("/products")
@@ -38,6 +63,40 @@ public class ProductController {
         return input;
     }
 
+
+    private Product from(ProductDto productDto) {
+        Product product = new Product();
+        product.setId(productDto.getId());
+        product.setName(productDto.getName());
+        product.setPrice(productDto.getPrice());
+        product.setImageUrl(productDto.getImageUrl());
+        product.setDescription(productDto.getDescription());
+        if(productDto.getCategory() != null) {
+            Category category = new Category();
+            category.setName(productDto.getCategory().getName());
+            category.setId(productDto.getCategory().getId());
+            product.setCategory(category);
+        }
+        return product;
+    }
+
+    private ProductDto from(Product product) {
+        ProductDto productDto = new ProductDto();
+        productDto.setName(product.getName());
+        productDto.setId(product.getId());
+        productDto.setDescription(product.getDescription());
+        productDto.setPrice(product.getPrice());
+        productDto.setImageUrl(product.getImageUrl());
+        if(product.getCategory() != null) {
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setDescription(product.getCategory().getDescription());
+            categoryDto.setName(product.getCategory().getName());
+            categoryDto.setId(product.getCategory().getId());
+            productDto.setCategory(categoryDto);
+        }
+
+        return productDto;
+    }
 
 
 //    @GetMapping("/products/{catId}/{prodId}")

@@ -1,5 +1,6 @@
 package org.example.productcatalogservice_may2026.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
