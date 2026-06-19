@@ -1,31 +1,31 @@
 FetchType        FetchMode          Result
 
-LAZY             SELECT             Asked For Products - Queries -
-                                    Not Asked For Products - Queries -
+LAZY             SELECT             Asked For Products - Queries - 2 select queries
+                                    Not Asked For Products - Queries - 1 select query from category table
 
 
-EAGER            SELECT             Asked For Products - Queries -
-                                    Not Asked For Products - Queries -
-
-
-
-LAZY             JOIN               Asked For Products - Queries -
-                                    Not Asked For Products - Queries -
+EAGER            SELECT             Asked For Products - Queries - 2 select queries (OVERRIDEN)
+                                    Not Asked For Products - Queries - 2 select queries (OVERRIDEN)
 
 
 
-EAGER            JOIN               Asked For Products - Queries -
-                                    Not Asked For Products - Queries -
+LAZY             JOIN               Asked For Products - Queries - 1 join query (OVERRIDEN)
+                                    Not Asked For Products - Queries - 1 join query (OVERRIDEN)
 
 
 
-LAZY             SUBSELECT           Asked For Products - Queries -
-                                     Not Asked For Products - Queries -
+EAGER            JOIN               Asked For Products - Queries - 1 join query
+                                    Not Asked For Products - Queries - 1 join query
 
 
 
-EAGER            SUBSELECT          Asked For Products - Queries -
-                                    Not Asked For Products - Queries -
+LAZY             SUBSELECT           Asked For Products - Queries - 2 select queries
+                                     Not Asked For Products - Queries - 1 select queries
+
+
+
+EAGER            SUBSELECT          Asked For Products - Queries - 2 select queries
+                                    Not Asked For Products - Queries - 2 select queries
 
 
 
