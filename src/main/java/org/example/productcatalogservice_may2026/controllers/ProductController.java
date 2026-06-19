@@ -32,6 +32,7 @@ public class ProductController {
         return null;
     }
 
+
     @GetMapping("/products/{ID}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable("ID") Long productId) {
         if (productId <= 0L) {
@@ -45,6 +46,8 @@ public class ProductController {
         }
         return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
     }
+
+
 
     @PutMapping("/products/{productId}")
     public ProductDto replaceProduct(@PathVariable Long productId,

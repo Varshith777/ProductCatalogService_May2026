@@ -15,4 +15,6 @@ public interface IProductService {
     Product replaceProduct(Product product,Long id);
 
     void deleteProduct(Long id);
+
+    List<Product> getAllActiveProducts();
 }

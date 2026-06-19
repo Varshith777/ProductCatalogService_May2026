@@ -24,6 +24,11 @@ public class FakeStoreProductService implements IProductService {
     @Autowired
     private RestTemplateBuilder restTemplateBuilder;
 
+
+    public List<Product> getAllActiveProducts() {
+        return null;
+    }
+
     @Override
     public Product getProductById(Long id) {
        RestTemplate restTemplate = restTemplateBuilder.build();

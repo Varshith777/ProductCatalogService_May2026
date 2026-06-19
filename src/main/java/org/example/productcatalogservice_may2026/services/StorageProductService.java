@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,19 @@ public class StorageProductService implements IProductService {
     @Override
     public List<Product> getAllProducts() {
         return productRepo.findAll();
+    }
+
+
+    @Override
+    public List<Product> getAllActiveProducts() {
+        List<Product> activeProducts = new ArrayList<>();
+        List<Product> products = productRepo.findAll();
+        for(Product product : products) {
+            if(product.getState().equals(State.ACTIVE))
+            activeProducts.add(product);
+        }
+
+        return activeProducts;
     }
 
     @Override
