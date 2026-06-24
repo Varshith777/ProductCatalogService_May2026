@@ -27,6 +27,7 @@ public class ProductController {
     @Autowired
     private IProductService productService;
 
+
     @GetMapping("/products")
     public List<ProductDto> getAllProducts() {
         return null;
@@ -36,7 +37,8 @@ public class ProductController {
     @GetMapping("/products/{ID}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable("ID") Long productId) {
         if (productId <= 0L) {
-            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+            //return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Please pass positive productId");
         }
 
         Product product = productService.getProductById(productId);
